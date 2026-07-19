@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation — Amrita Campus</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="routes.js"></script>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ══ NAV PAGE ═══════════════════════════════════════════════════════ -->
+  <div class="page" id="page-nav">
+
+    <!-- Header -->
+    <div class="nav-header">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <span class="nav-title" id="nav-title">Navigation</span>
+      <span class="nav-steps-badge" id="steps-badge">Step 1 of 4</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-label-left">Start</span>
+        <span id="progress-label-right">0% complete</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-wrap">
+      <svg id="map-svg" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg"
+           style="width:100%;height:100%">
+
+        <!-- ── Building Floor Plan ──────────────────────────────────────── -->
+        <!-- Outer walls -->
+        <rect x="20" y="20" width="360" height="480" rx="8" fill="#f0ece6" stroke="#c8b8a8" stroke-width="3"/>
+
+        <!-- Ground floor rooms left wing -->
+        <rect x="20" y="240" width="120" height="120" fill="#e8e2da" stroke="#b8a898" stroke-width="1.5"/>
+        <rect x="20" y="360" width="120" height="80" fill="#e8e2da" stroke="#b8a898" stroke-width="1.5"/>
+        <!-- Ground floor rooms right wing -->
+        <rect x="260" y="240" width="120" height="120" fill="#e8e2da" stroke="#b8a898" stroke-width="1.5"/>
+        <rect x="260" y="360" width="120" height="80" fill="#e8e2da" stroke="#b8a898" stroke-width="1.5"/>
+
+        <!-- First floor rooms -->
+        <rect x="20" y="40" width="110" height="100" fill="#ddd6ce" stroke="#b8a898" stroke-width="1.5"/>
+        <rect x="270" y="40" width="110" height="100" fill="#ddd6ce" stroke="#b8a898" stroke-width="1.5"/>
+        <rect x="20" y="140" width="110" height="90" fill="#ddd6ce" stroke="#b8a898" stroke-width="1.5"/>
+        <rect x="270" y="140" width="110" height="90" fill="#ddd6ce" stroke="#b8a898" stroke-width="1.5"/>
+
+        <!-- Central corridor horizontal -->
+        <rect x="20" y="230" width="360" height="12" fill="#d4ccc4" stroke="none"/>
+        <!-- Central lobby area -->
+        <rect x="140" y="280" width="120" height="80" rx="4" fill="#e0d8cf" stroke="#c0b0a0" stroke-width="1.5"/>
+
+        <!-- Staircase blocks -->
+        <rect x="150" y="200" width="40" height="50" rx="3" fill="#c8bfb5" stroke="#a89888" stroke-width="1.5"/>
+        <rect x="155" y="205" width="30" height="5" fill="#b8afa5"/>
+        <rect x="155" y="213" width="30" height="5" fill="#b8afa5"/>
+        <rect x="155" y="221" width="30" height="5" fill="#b8afa5"/>
+        <rect x="155" y="229" width="30" height="5" fill="#b8afa5"/>
+
+        <!-- Main entrance (bottom) -->
+        <rect x="160" y="488" width="80" height="16" rx="4" fill="#8B1A4A" opacity="0.3"/>
+        <path d="M180 488 L220 488" stroke="#8B1A4A" stroke-width="3"/>
+
+        <!-- Door indicators -->
+        <!-- CR1 door -->
+        <path d="M20 300 L20 280" stroke="#8B1A4A" stroke-width="3" stroke-linecap="round"/>
+        <!-- CR2 door -->
+        <path d="M380 300 L380 280" stroke="#8B1A4A" stroke-width="3" stroke-linecap="round"/>
+        <!-- Lab doors -->
+        <path d="M20 390 L20 370" stroke="#1A4A8B" stroke-width="3" stroke-linecap="round"/>
+        <path d="M380 390 L380 370" stroke="#1A4A8B" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Room labels (subtle) -->
+        <text x="65" y="308" text-anchor="middle" font-size="9" fill="#9a8878" font-family="sans-serif">CR 1</text>
+        <text x="325" y="308" text-anchor="middle" font-size="9" fill="#9a8878" font-family="sans-serif">CR 2</text>
+        <text x="65" y="406" text-anchor="middle" font-size="9" fill="#7a8898" font-family="sans-serif">Lab 1</text>
+        <text x="325" y="406" text-anchor="middle" font-size="9" fill="#7a8898" font-family="sans-serif">Lab 2</text>
+        <text x="65" y="90" text-anchor="middle" font-size="9" fill="#9a8878" font-family="sans-serif">CR 3</text>
+        <text x="325" y="90" text-anchor="middle" font-size="9" fill="#7a8898" font-family="sans-serif">E-Lab</text>
+        <text x="200" y="326" text-anchor="middle" font-size="10" fill="#a09080" font-family="sans-serif">Lobby</text>
+
+        <!-- Compass -->
+        <g transform="translate(360,38)">
+          <circle r="16" fill="white" opacity="0.85"/>
+          <text text-anchor="middle" y="-6" font-size="8" fill="#8B1A4A" font-weight="bold" font-family="sans-serif">N</text>
+          <text text-anchor="middle" y="10" font-size="8" fill="#888" font-family="sans-serif">S</text>
+          <text x="-10" y="3" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">W</text>
+          <text x="10" y="3" text-anchor="middle" font-size="8" fill="#888" font-family="sans-serif">E</text>
+          <line y1="-5" y2="0" stroke="#8B1A4A" stroke-width="2"/>
+        </g>
+
+        <!-- Route path (updated dynamically) -->
+        <polyline id="route-path" points="" fill="none"
+                  stroke="#8B1A4A" stroke-width="3" stroke-dasharray="8,5"
+                  stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+        <!-- Checkpoint dots (injected by JS) -->
+        <g id="checkpoints-layer"></g>
+
+      </svg>
+    </div>
+
+    <!-- Current instruction banner -->
+    <div class="instruction-banner">
+      <div class="instruction-icon" id="instruction-icon">🚶</div>
+      <div class="instruction-text">
+        <h4 id="instruction-main">Loading route…</h4>
+        <p  id="instruction-sub">Tap a checkpoint when you arrive</p>
+      </div>
+    </div>
+
+    <!-- Checkpoint modal -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-photo" id="modal-photo">
+          <span id="modal-emoji">📍</span>
+        </div>
+        <div class="modal-body">
+          <span class="modal-tag" id="modal-tag">CHECKPOINT</span>
+          <h3 id="modal-name">Landmark</h3>
+          <p  id="modal-desc">Description goes here.</p>
+          <div class="modal-instruction" id="modal-instruction">Turn left here</div>
+        </div>
+        <button class="modal-next-btn" id="modal-next-btn" onclick="advanceCheckpoint()">
+          Next →
+        </button>
+      </div>
+    </div>
+
+    <!-- Arrival overlay -->
+    <div class="arrival-overlay hidden" id="arrival-overlay">
+      <div class="arrival-icon">🎉</div>
+      <div class="arrival-title" id="arrival-title">You've Arrived!</div>
+      <div class="arrival-sub"  id="arrival-sub">You have reached your destination.</div>
+      <button class="arrival-restart" onclick="goHome()">← Back to Home</button>
+    </div>
+
+  </div><!-- /page-nav -->
+
+</div><!-- /phone -->
+
+<script>
+// ── State ───────────────────────────────────────────────────────────────────
+let destination   = null;
+let checkpoints   = [];
+let currentIndex  = 0;   // which checkpoint the user is currently AT (awaiting tap)
+let completedUpTo = -1;  // last confirmed checkpoint index
+
+// ── Init ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const destId = sessionStorage.getItem('navDestId');
+  if (!destId) { window.location.href = 'index.html'; return; }
+
+  destination  = getDestination(destId);
+  if (!destination) { window.location.href = 'index.html'; return; }
+  checkpoints  = destination.checkpoints;
+
+  document.getElementById('nav-title').textContent = destination.name;
+  renderCheckpoints();
+  updateInstruction();
+  updateProgress();
+});
+
+// ── Render checkpoint dots on the SVG map ───────────────────────────────────
+function renderCheckpoints() {
+  const layer = document.getElementById('checkpoints-layer');
+  layer.innerHTML = '';
+
+  // Draw dashed route line
+  const pts = checkpoints.map(cp => `${cpX(cp)},${cpY(cp)}`).join(' ');
+  document.getElementById('route-path').setAttribute('points', pts);
+
+  checkpoints.forEach((cp, i) => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'cp-dot');
+    g.setAttribute('id', `cp-dot-${i}`);
+    g.setAttribute('transform', `translate(${cpX(cp)},${cpY(cp)})`);
+    g.style.cursor = 'pointer';
+
+    // Pulse ring (visible on active checkpoint)
+    const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    ring.setAttribute('class', 'pulse-ring');
+    ring.setAttribute('r', '10');
+    ring.setAttribute('fill', 'rgba(139,26,74,0.25)');
+    ring.setAttribute('stroke', 'none');
+
+    // Outer fill
+    const outer = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    outer.setAttribute('r', '11');
+    outer.setAttribute('fill', 'white');
+    outer.setAttribute('stroke', '#8B1A4A');
+    outer.setAttribute('stroke-width', '2.5');
+
+    // Inner fill
+    const inner = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    inner.setAttribute('r', '7');
+    inner.setAttribute('fill', '#8B1A4A');
+    inner.setAttribute('opacity', '0.3');
+
+    // Emoji label
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'central');
+    text.setAttribute('font-size', '10');
+    text.textContent = cp.icon;
+
+    // Step number badge
+    const numBg = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    numBg.setAttribute('cx', '9');
+    numBg.setAttribute('cy', '-9');
+    numBg.setAttribute('r', '7');
+    numBg.setAttribute('fill', '#8B1A4A');
+
+    const num = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    num.setAttribute('x', '9');
+    num.setAttribute('y', '-9');
+    num.setAttribute('text-anchor', 'middle');
+    num.setAttribute('dominant-baseline', 'central');
+    num.setAttribute('font-size', '8');
+    num.setAttribute('fill', 'white');
+    num.setAttribute('font-weight', 'bold');
+    num.setAttribute('font-family', 'sans-serif');
+    num.textContent = i + 1;
+
+    g.appendChild(ring);
+    g.appendChild(outer);
+    g.appendChild(inner);
+    g.appendChild(text);
+    g.appendChild(numBg);
+    g.appendChild(num);
+
+    g.addEventListener('click', () => handleCheckpointTap(i));
+    layer.appendChild(g);
+  });
+
+  refreshDotStyles();
+}
+
+// Convert % positions to SVG coords (viewBox 400×520)
+function cpX(cp) { return (cp.x / 100) * 400; }
+function cpY(cp) { return (cp.y / 100) * 520; }
+
+// ── Dot styles based on state ────────────────────────────────────────────────
+function refreshDotStyles() {
+  checkpoints.forEach((cp, i) => {
+    const g     = document.getElementById(`cp-dot-${i}`);
+    if (!g) return;
+    const outer = g.querySelectorAll('circle')[1];
+    const inner = g.querySelectorAll('circle')[2];
+    const ring  = g.querySelectorAll('circle')[0];
+
+    if (i < currentIndex) {
+      // Completed
+      outer.setAttribute('fill', '#8B1A4A');
+      outer.setAttribute('stroke', '#6B1238');
+      inner.setAttribute('fill', 'white');
+      inner.setAttribute('opacity', '1');
+      ring.style.animation = 'none';
+    } else if (i === currentIndex) {
+      // Active — next to tap
+      outer.setAttribute('fill', 'white');
+      outer.setAttribute('stroke', '#8B1A4A');
+      inner.setAttribute('fill', '#8B1A4A');
+      inner.setAttribute('opacity', '0.9');
+      ring.style.animation = 'pulse-ring 1.4s ease-out infinite';
+    } else {
+      // Future
+      outer.setAttribute('fill', 'white');
+      outer.setAttribute('stroke', '#c0a0b0');
+      inner.setAttribute('fill', '#c0a0b0');
+      inner.setAttribute('opacity', '0.4');
+      ring.style.animation = 'none';
+    }
+  });
+}
+
+// ── Handle a checkpoint tap ──────────────────────────────────────────────────
+function handleCheckpointTap(i) {
+  // Only respond to the CURRENT active checkpoint (or already completed ones)
+  if (i !== currentIndex) {
+    if (i < currentIndex) return; // already done, ignore
+    // Future checkpoint — show hint
+    shakeInstruction();
+    return;
+  }
+  openModal(i);
+}
+
+function shakeInstruction() {
+  const el = document.querySelector('.instruction-banner');
+  el.style.transition = 'transform 0.1s';
+  let times = 0;
+  const shake = setInterval(() => {
+    el.style.transform = times % 2 === 0 ? 'translateX(6px)' : 'translateX(-6px)';
+    times++;
+    if (times > 5) { clearInterval(shake); el.style.transform = ''; }
+  }, 60);
+}
+
+// ── Modal ────────────────────────────────────────────────────────────────────
+function openModal(i) {
+  const cp = checkpoints[i];
+  const isLast = i === checkpoints.length - 1;
+
+  document.getElementById('modal-emoji').textContent = cp.icon;
+  document.getElementById('modal-tag').textContent =
+    isLast ? '🏁 DESTINATION' : `CHECKPOINT ${i + 1} OF ${checkpoints.length}`;
+  document.getElementById('modal-name').textContent        = cp.label;
+  document.getElementById('modal-desc').textContent        = cp.description;
+  document.getElementById('modal-instruction').textContent = cp.instruction;
+  document.getElementById('modal-next-btn').textContent    =
+    isLast ? '🎉 I\'ve arrived!' : `Next → ${checkpoints[i+1]?.label ?? ''}`;
+
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+
+// ── Advance to next checkpoint ────────────────────────────────────────────────
+function advanceCheckpoint() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+
+  // Mark current as complete
+  currentIndex++;
+  completedUpTo = currentIndex - 1;
+
+  updateProgress();
+  refreshDotStyles();
+
+  if (currentIndex >= checkpoints.length) {
+    // All done — arrival screen
+    showArrival();
+  } else {
+    updateInstruction();
+  }
+}
+
+// ── Instruction banner ────────────────────────────────────────────────────────
+function updateInstruction() {
+  const cp = checkpoints[currentIndex];
+  if (!cp) return;
+  document.getElementById('instruction-icon').textContent = cp.icon;
+  document.getElementById('instruction-main').textContent = cp.instruction;
+  document.getElementById('instruction-sub').textContent  =
+    `Tap the ${cp.label} marker on the map when you arrive`;
+  document.getElementById('steps-badge').textContent =
+    `Step ${currentIndex + 1} of ${checkpoints.length}`;
+}
+
+// ── Progress bar ──────────────────────────────────────────────────────────────
+function updateProgress() {
+  const pct = Math.round((currentIndex / checkpoints.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label-right').textContent = pct + '% complete';
+  document.getElementById('progress-label-left').textContent  =
+    currentIndex === 0 ? 'Start' : checkpoints[currentIndex - 1]?.label ?? 'En route';
+  document.getElementById('steps-badge').textContent =
+    `Step ${Math.min(currentIndex + 1, checkpoints.length)} of ${checkpoints.length}`;
+}
+
+// ── Arrival screen ────────────────────────────────────────────────────────────
+function showArrival() {
+  document.getElementById('arrival-title').textContent =
+    `You've arrived at ${destination.name}!`;
+  document.getElementById('arrival-sub').textContent =
+    checkpoints[checkpoints.length - 1].description;
+  document.getElementById('arrival-overlay').classList.remove('hidden');
+
+  // Fill progress to 100%
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-label-right').textContent = '100% complete';
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function goBack() { window.history.back(); }
+function goHome() { window.location.href = 'index.html'; }
+</script>
+
+</body>
+</html>

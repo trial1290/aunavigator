@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amrita Campus Navigator</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="routes.js" defer></script>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ══ PAGE 1: SPLASH ══════════════════════════════════════════════════ -->
+  <div class="page" id="page-splash">
+    <!-- Inline SVG replicating the Amrita logo mark + wordmark in white -->
+    <svg class="splash-logo" viewBox="0 0 320 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Emblem circle -->
+      <circle cx="42" cy="45" r="38" stroke="white" stroke-width="2.5" fill="none"/>
+      <circle cx="42" cy="45" r="30" stroke="white" stroke-width="1.2" fill="none"/>
+      <!-- Simplified dome shape -->
+      <path d="M26 52 Q42 22 58 52" stroke="white" stroke-width="2" fill="none"/>
+      <rect x="34" y="52" width="16" height="8" rx="1" stroke="white" stroke-width="1.5" fill="none"/>
+      <line x1="42" y1="44" x2="42" y2="22" stroke="white" stroke-width="1.5"/>
+      <!-- Stars -->
+      <circle cx="28" cy="38" r="2" fill="white" opacity="0.7"/>
+      <circle cx="56" cy="38" r="2" fill="white" opacity="0.7"/>
+      <circle cx="42" cy="60" r="1.5" fill="white" opacity="0.5"/>
+      <!-- Wordmark -->
+      <text x="92" y="42" font-family="Georgia, serif" font-size="30" font-weight="bold" fill="white" letter-spacing="2">AMRITA</text>
+      <text x="92" y="62" font-family="Georgia, serif" font-size="12" fill="rgba(255,255,255,0.85)" letter-spacing="3">VISHWA VIDYAPEETHAM</text>
+      <!-- Sanskrit text -->
+      <text x="92" y="78" font-family="serif" font-size="9" fill="rgba(255,255,255,0.55)" letter-spacing="1">विद्यायाम् सर्वम् जयम्</text>
+    </svg>
+    <p class="splash-sub">Campus Navigator</p>
+    <button class="splash-btn" onclick="showHome()">Get Started →</button>
+  </div>
+
+  <!-- ══ PAGE 2: HOME / FOLDER SELECT ════════════════════════════════════ -->
+  <div class="page hidden" id="page-home">
+    <div class="home-header">
+      <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="36" stroke="white" stroke-width="2.5" fill="none"/>
+        <circle cx="40" cy="40" r="28" stroke="white" stroke-width="1.2" fill="none"/>
+        <path d="M24 48 Q40 18 56 48" stroke="white" stroke-width="2.2" fill="none"/>
+        <rect x="32" y="48" width="16" height="10" rx="1" stroke="white" stroke-width="1.5" fill="none"/>
+        <line x1="40" y1="40" x2="40" y2="18" stroke="white" stroke-width="1.5"/>
+      </svg>
+      <div class="home-header-text">
+        <h1>Amrita Campus Navigator</h1>
+        <p>Vishwa Vidyapeetham — Indoor Guide</p>
+      </div>
+    </div>
+
+    <div class="home-body">
+      <div>
+        <div class="home-greeting">Where do you want<br>to go <span>today?</span></div>
+        <p class="home-subtitle">Select a category to find your destination</p>
+      </div>
+
+      <div class="folder-grid">
+        <!-- Classrooms Folder -->
+        <div class="folder-card" onclick="showList('classrooms')">
+          <div class="folder-icon classroom">🎓</div>
+          <h3>Classrooms</h3>
+          <p>Lecture halls &amp; seminar rooms</p>
+          <span class="folder-badge" id="badge-classrooms">3 rooms</span>
+        </div>
+        <!-- Labs Folder -->
+        <div class="folder-card" onclick="showList('labs')">
+          <div class="folder-icon lab">🔬</div>
+          <h3>Labs</h3>
+          <p>Computer &amp; electronics labs</p>
+          <span class="folder-badge" id="badge-labs">3 labs</span>
+        </div>
+      </div>
+
+      <!-- Quick info cards -->
+      <div style="margin-top:8px">
+        <p style="font-size:12px;color:var(--gray);font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">How it works</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:white;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(139,26,74,0.07);">
+            <span style="font-size:20px;">📍</span>
+            <span style="font-size:12px;color:var(--text);">Pick your destination from a category</span>
+          </div>
+          <div style="background:white;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(139,26,74,0.07);">
+            <span style="font-size:20px;">🗺️</span>
+            <span style="font-size:12px;color:var(--text);">Follow the map &amp; turn-by-turn steps</span>
+          </div>
+          <div style="background:white;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(139,26,74,0.07);">
+            <span style="font-size:20px;">✅</span>
+            <span style="font-size:12px;color:var(--text);">Tap each landmark as you pass it</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE 3: DESTINATION LIST ════════════════════════════════════════ -->
+  <div class="page hidden" id="page-list">
+    <div class="list-header">
+      <button class="back-btn" onclick="showHome()">←</button>
+      <div class="list-header-text">
+        <h2 id="list-title">Classrooms</h2>
+        <p id="list-subtitle">Select your destination</p>
+      </div>
+    </div>
+    <div class="list-body" id="list-body">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+// ── Page transitions ────────────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function showHome()   { showPage('page-home'); }
+function showSplash() { showPage('page-splash'); }
+
+// ── Destination List ────────────────────────────────────────────────────────
+function showList(category) {
+  const items     = DESTINATIONS[category];
+  const isLab     = category === 'labs';
+  const titleEl   = document.getElementById('list-title');
+  const subEl     = document.getElementById('list-subtitle');
+  const bodyEl    = document.getElementById('list-body');
+
+  titleEl.textContent = isLab ? '🔬 Labs' : '🎓 Classrooms';
+  subEl.textContent   = `${items.length} destination${items.length !== 1 ? 's' : ''} available`;
+
+  bodyEl.innerHTML = items.map((dest, i) => `
+    <div class="dest-item" onclick="openNav('${dest.id}')">
+      <div class="dest-num">${i + 1}</div>
+      <div class="dest-info">
+        <h4>${dest.name}</h4>
+        <p>${dest.floor} · ${dest.description}</p>
+      </div>
+      <span class="dest-arrow">›</span>
+    </div>
+  `).join('');
+
+  showPage('page-list');
+}
+
+// ── Open navigation ─────────────────────────────────────────────────────────
+function openNav(destId) {
+  // Store in sessionStorage and open nav.html
+  sessionStorage.setItem('navDestId', destId);
+  window.location.href = 'nav.html';
+}
+
+// ── Badge counts ─────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('badge-classrooms').textContent =
+    DESTINATIONS.classrooms.length + ' rooms';
+  document.getElementById('badge-labs').textContent =
+    DESTINATIONS.labs.length + ' labs';
+
+  // Auto-advance splash after 2s
+  setTimeout(() => showHome(), 2000);
+});
+</script>
+
+</body>
+</html>
